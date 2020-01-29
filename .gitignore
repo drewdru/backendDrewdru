@@ -1,0 +1,4 @@
+backendDrewdru/settings_prod.py
+
+*.sqlite3
+env/*
