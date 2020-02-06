@@ -1,7 +1,9 @@
+#!/bin/bash
 source env/bin/activate
 case $1 in
   dev)
     export DJANGO_SETTINGS_MODULE=backendDrewdru.settings_dev
+    python manage.py loaddata tasks
     python manage.py runserver
     ;;
   prod)

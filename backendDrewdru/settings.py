@@ -37,17 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'api',
     'graphene_django',
+    'home',
+    'api',
 ]
-GRAPHENE = {
-    'SCHEMA': 'api.schema.schema',
-    # 'SCHEMA_INDENT': 4,
-    # 'MIDDLEWARE': [
-    #     # Others middlewares
-    #     'graphene_django_subscriptions.depromise_subscription',
-    # ]
-}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -65,7 +58,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            './api/templates',
+            'templates',
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -139,3 +132,9 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, "static/")
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
+
+GRAPHENE = {
+    'SCHEMA': 'backendDrewdru.schema.schema'
+}

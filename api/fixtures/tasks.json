@@ -1,0 +1,28 @@
+[
+    {
+        "model": "api.TaskModel",
+        "pk": 1,
+        "fields": {
+            "isDone": "True",
+            "name": "Do shoppping",
+            "description": "milk, butter"
+        }
+    }, {
+        "model": "api.TaskModel",
+        "pk": 2,
+        "fields": {
+            "isDone": "False",
+            "name": "Do laundry",
+            "description": "all clothes"
+        }
+    }, {
+        "model": "api.TaskModel",
+        "pk": 3,
+        "fields": {
+            "isDone": "False",
+            "name": "Fix computer",
+            "description": "Fix computer"
+        }
+    }
+]
+  
