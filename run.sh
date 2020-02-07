@@ -1,4 +1,5 @@
 #!/bin/bash
+cd /home/drewdru/develop/python/backendDrewdru/
 source env/bin/activate
 case $1 in
   dev)
@@ -6,6 +7,7 @@ case $1 in
     python manage.py loaddata tasks
     python manage.py runserver
     ;;
+#  prod)
   prod)
     export DJANGO_SETTINGS_MODULE=backendDrewdru.settings_prod
     yes yes | python manage.py collectstatic

@@ -25,13 +25,9 @@ SECRET_KEY = 'sz0002i$ktz&3=1c)iq^!$(q46j@a_-#0$5(g3#90o%)_@5mt='
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['api.drewdru.com']
+ALLOWED_HOSTS = ['*']
 
-CORS_ORIGIN_ALLOW_ALL = False
-CORS_ORIGIN_WHITELIST = (
-    'http://localhost:8080',
-    'https://drewdru.com',
-)
+CORS_ORIGIN_ALLOW_ALL = True 
 
 # Application definition
 
