@@ -23,26 +23,29 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView
 from django.views.generic.base import RedirectView
 from django.views.static import serve
-
 from graphene_django.views import GraphQLView
+from graphql_jwt.decorators import jwt_cookie
 
-
-favicon_view = RedirectView.as_view(url=os.path.join(settings.STATIC_URL,'favicon.ico'), permanent=True)
+favicon_view = RedirectView.as_view(
+    url=os.path.join(settings.STATIC_URL, "favicon.ico"), permanent=True
+)
 
 urlpatterns = [
-    path('', include('api.urls')),
-    path('', include('home.urls')),
-    path('favicon.ico', favicon_view),
-    path('admin/', admin.site.urls),
-    url(r'^graphql', csrf_exempt(GraphQLView.as_view(graphiql=True))),
-    url(r'^static/(?P<path>.*)$', serve,
-        {'document_root': settings.STATIC_ROOT}),
-    url(r'^media/(?P<path>.*)$', serve,
-        {'document_root': settings.MEDIA_ROOT}),
+    path("", include("api.urls")),
+    path("", include("home.urls")),
+    path("favicon.ico", favicon_view),
+    path("admin/", admin.site.urls),
+    url(r"^graphql/user", jwt_cookie(GraphQLView.as_view(graphiql=True))),
+    url(r"^graphql/", csrf_exempt(GraphQLView.as_view(graphiql=True))),
+    url(
+        r"^static/(?P<path>.*)$", serve, {"document_root": settings.STATIC_ROOT}
+    ),
+    url(r"^media/(?P<path>.*)$", serve, {"document_root": settings.MEDIA_ROOT}),
 ]
 
 if settings.DEBUG:
     import debug_toolbar
+
     urlpatterns = [
-        url(r'^__debug__/', include(debug_toolbar.urls)),
+        url(r"^__debug__/", include(debug_toolbar.urls)),
     ] + urlpatterns

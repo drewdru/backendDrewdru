@@ -9,6 +9,7 @@ graphene==2.1.8
 graphene-django==2.8.0
 graphql-core==2.3.1
 graphql-relay==2.0.1
+django-graphql-jwt
 h11==0.9.0
 httptools==0.0.13
 promise==2.3
@@ -20,3 +21,6 @@ sqlparse==0.3.0
 uvicorn==0.11.2
 uvloop==0.14.0
 websockets==8.1
+django-modeltranslation
+isort
+black

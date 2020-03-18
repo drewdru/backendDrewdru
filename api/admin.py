@@ -1,15 +1,15 @@
 from django.contrib import admin
-from api.models import TaskModel, UserModel, PostModel
+
+from api.models import Post, Task
+
 # Register your models here.
 
-@admin.register(TaskModel)
-class TaskAdmin(admin.ModelAdmin):
-  	pass
 
-@admin.register(UserModel)
+@admin.register(Task)
 class TaskAdmin(admin.ModelAdmin):
-  	pass
+    pass
 
-@admin.register(PostModel)
-class TaskAdmin(admin.ModelAdmin):
-  	pass
+
+@admin.register(Post)
+class PostAdmin(admin.ModelAdmin):
+    pass
