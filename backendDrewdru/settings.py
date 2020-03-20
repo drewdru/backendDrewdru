@@ -14,6 +14,7 @@ import os
 import sys
 from datetime import timedelta
 
+import environ
 from django.utils.translation import ugettext_lazy as _
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -93,15 +94,6 @@ TEMPLATES = [
 WSGI_APPLICATION = "backendDrewdru.wsgi.application"
 # endregion
 
-# region Database
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": os.path.join(BASE_DIR, "testdb.sqlite3"),
-    },
-}
-# endregion
-
 # region PasswordValidation
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -158,4 +150,16 @@ GRAPHQL_JWT = {
     "JWT_ARGUMENT_NAME": "token",
     "JWT_ALLOW_ARGUMENT": True,
 }
+# endregion
+
+
+# region Environ
+env = environ.Env(
+    MONGO_DB_NAME=(str, "DB_NAME"),
+    MONGO_DB_HOST=(str, "127.0.0.1"),
+    MONGO_DB_PORT=(int, 27017),
+    MONGO_DB_USER=(str, "USER_NAME"),
+    MONGO_DB_PASSWORD=(str, "PASSWORD"),
+    MONGO_DB_AUTH_SOURCE=(str, "admin"),
+)
 # endregion

@@ -11,11 +11,6 @@ import os
 
 from django.core.asgi import get_asgi_application
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "backendDrewdru.settings")
-
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
-with open(f"{BASE_DIR}/.env.prod", "a+") as f:
-    os.environ.update(line.strip().split("=", 1) for line in f)
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "backendDrewdru.settings_prod")
 
 application = get_asgi_application()
