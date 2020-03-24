@@ -6,12 +6,10 @@ import sys
 
 def main():
     settings = "backendDrewdru.settings_dev"
-    if 'prod' in sys.argv:
+    if "prod" in sys.argv:
         settings = "backendDrewdru.settings_prod"
-        sys.argv.remove('prod')
-    os.environ.setdefault(
-        "DJANGO_SETTINGS_MODULE", settings
-    )
+        sys.argv.remove("prod")
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", settings)
 
     try:
         from django.core.management import execute_from_command_line
