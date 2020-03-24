@@ -35,8 +35,7 @@ urlpatterns = [
     path("", include("home.urls")),
     path("favicon.ico", favicon_view),
     path("admin/", admin.site.urls),
-    url(r"^graphql/user", jwt_cookie(GraphQLView.as_view(graphiql=True))),
-    url(r"^graphql/", csrf_exempt(GraphQLView.as_view(graphiql=True))),
+    url(r"^graphql/", jwt_cookie(GraphQLView.as_view(graphiql=True))),
     url(
         r"^static/(?P<path>.*)$", serve, {"document_root": settings.STATIC_ROOT}
     ),

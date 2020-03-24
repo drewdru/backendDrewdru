@@ -69,7 +69,7 @@ class CreateTask(graphene.Mutation):
         name = graphene.String()
         description = graphene.String()
 
-    @login_required
+    # @login_required
     def mutate(self, info, name, description):
         task = Task(name=name, description=description, is_done=False)
         task.save()
