@@ -9,7 +9,7 @@ case $1 in
     python manage.py loaddata ./*/fixtures/*.json
     isort -y
 	  black . --line-length 80
-    python manage.py runserver
+    python manage.py runserver 8808
     ;;
   prod)
     yes yes | python manage.py collectstatic
