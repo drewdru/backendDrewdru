@@ -9,22 +9,42 @@ if os.path.exists(env_file_path):
 DEBUG = True
 
 # region CORS
-ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
+ALLOWED_HOSTS = [
+    "127.0.0.1",
+    "192.168.0.103",
+    "localhost",
+    "drewdru.local",
+    "*.drewdru.local",
+    "drewdru.local:8080",
+    "*.drewdru.local:8080",
+]
 CORS_ORIGIN_ALLOW_ALL = False
 CORS_ORIGIN_WHITELIST = [
-    "http://localhost", "http://127.0.0.1", "http://drewdru.local",
+    "http://localhost",
+    "http://127.0.0.1",
+    "http://192.168.0.103",
+    "http://drewdru.local",
+    "http://drewdru.local:8080",
 ]
 CORS_ORIGIN_REGEX_WHITELIST = [
     r"^http://127.0.0.1:\d+$",
+    r"^http://192.168.0.103:\d+$",
     r"^http://localhost:\d+$",
     r"^http://\w+\.drewdru\.local$",
+    r"^http://\w+\.drewdru\.local:\d+$",
 ]
 # endregion
 
 # region DebugToolbar
 MIDDLEWARE.append("debug_toolbar.middleware.DebugToolbarMiddleware")
 INSTALLED_APPS.append("debug_toolbar")
-INTERNAL_IPS = ("127.0.0.1", "localhost")
+INTERNAL_IPS = (
+    "127.0.0.1",
+    "192.168.0.103",
+    "localhost",
+    "drewdru.local",
+    "drewdru.local:8080",
+)
 # endregion
 
 # region Database
