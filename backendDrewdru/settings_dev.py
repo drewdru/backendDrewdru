@@ -8,6 +8,12 @@ if os.path.exists(env_file_path):
 
 DEBUG = True
 
+SECRET_KEY = "sz0002i$ktz&3=1c)iq^!$(q46j@a_-#0$5(g3#90o%)_@5mt="
+
+# cross-domain cookie
+SESSION_COOKIE_DOMAIN = ".drewdru.local"
+SESSION_COOKIE_NAME = "drewdrulocalcookie"
+
 # region CORS
 ALLOWED_HOSTS = [
     "127.0.0.1",
@@ -66,4 +72,19 @@ DATABASES = {
         },
     }
 }
+# endregion
+
+
+# region Celery
+REDIS_HOST = "127.0.0.1"
+REDIS_PORT = 6379
+BROKER_URL = "redis://127.0.0.1:6379/0"
+BROKER_TRANSPORT = "redis"
+
+CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379/0'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'Asia/Krasnoyarsk'
+
 # endregion

@@ -18,7 +18,19 @@ from django.contrib import admin
 from django.urls import include, path
 from django.views.generic import TemplateView
 from graphene_django.views import GraphQLView
+from rest_framework.routers import DefaultRouter
+from rest_framework.urlpatterns import format_suffix_patterns
+from rest_framework_sso.views import (
+    obtain_authorization_token,
+    obtain_session_token,
+)
+
+from api.views.user import UserViewSet
 
 urlpatterns = [
-    # path('', TemplateView.as_view(template_name='index.html')),
+    path("session/", obtain_session_token),
+    path("authorize/", obtain_authorization_token),
+    path("user/", UserViewSet.as_view({"get": "list"})),
 ]
+
+# urlpatterns = format_suffix_patterns(urlpatterns)

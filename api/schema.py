@@ -5,7 +5,8 @@ from graphene_django import DjangoObjectType
 from graphql_jwt.decorators import login_required
 from graphql_relay.node.node import from_global_id
 
-from api.models import Post, Task
+from api.models.post import Post
+from api.models.task import Task
 
 User = get_user_model()
 

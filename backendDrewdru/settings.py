@@ -46,7 +46,6 @@ CORS_ORIGIN_REGEX_WHITELIST = [
 # endregion
 
 # region Install
-
 INSTALLED_APPS = [
     "modeltranslation",
     "django.contrib.admin",
@@ -55,11 +54,14 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "corsheaders",
     "graphene_django",
     "graphql_jwt.refresh_token.apps.RefreshTokenConfig",
-    "corsheaders",
+    "rest_framework",
+    "rest_framework_sso",
     "home",
     "api",
+    "ocr",
 ]
 
 MIDDLEWARE = [
@@ -91,6 +93,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "backendDrewdru.wsgi.application"
+AUTH_PROFILE_MODULE = "api.models.user.UserProfile"
 # endregion
 
 # region PasswordValidation
@@ -106,6 +109,36 @@ AUTH_PASSWORD_VALIDATORS = [
         "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
+
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework_sso.authentication.JWTAuthentication",
+        "rest_framework.authentication.SessionAuthentication",
+    ),
+}
+
+REST_FRAMEWORK_SSO = {
+    "IDENTITY": "backendDrewdru",
+    "SESSION_AUDIENCE": ["backendDrewdru"],
+    "AUTHORIZATION_AUDIENCE": ["backendDrewdru"],
+    "ACCEPTED_ISSUERS": ["backendDrewdru"],
+    "KEY_STORE_ROOT": "keys",
+    # openssl genpkey -algorithm RSA -out private_key.pem -pkeyopt rsa_keygen_bits:2048
+    # openssl rsa -pubout -in private_key.pem -out public_key.pem
+    # cat private_key.pem public_key.pem > keys/backendDrewdru-20180101.pem
+    "PUBLIC_KEYS": {
+        "backendDrewdru": [
+            "backendDrewdru-20180101.pem",
+            "backendDrewdru-20180101.pem",
+        ],
+    },
+    "PRIVATE_KEYS": {
+        "backendDrewdru": [
+            "backendDrewdru-20180101.pem",
+            "backendDrewdru-20180101.pem",
+        ],
+    },
+}
 # endregion
 
 # region Internationalization
@@ -150,7 +183,6 @@ GRAPHQL_JWT = {
     "JWT_ALLOW_ARGUMENT": True,
 }
 # endregion
-
 
 # region Environ
 env = environ.Env(

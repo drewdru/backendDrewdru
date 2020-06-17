@@ -1,6 +1,6 @@
 from modeltranslation.translator import TranslationOptions, translator
 
-from api.models import Task
+from api.models.task import Task
 
 
 class TaskTranslation(TranslationOptions):

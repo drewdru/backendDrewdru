@@ -1,8 +1,7 @@
 from django.contrib import admin
 
-from api.models import Post, Task
-
-# Register your models here.
+from api.models.post import Post
+from api.models.task import Task
 
 
 @admin.register(Task)
