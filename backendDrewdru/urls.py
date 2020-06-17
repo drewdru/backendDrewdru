@@ -33,6 +33,7 @@ favicon_view = RedirectView.as_view(
 urlpatterns = [
     path("", include("api.urls")),
     path("", include("home.urls")),
+    path("ocr/", include("ocr.urls")),
     path("favicon.ico", favicon_view),
     path("admin/", admin.site.urls),
     url(r"^graphql/", jwt_cookie(GraphQLView.as_view(graphiql=True))),

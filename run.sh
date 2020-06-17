@@ -9,11 +9,13 @@ case $1 in
     python manage.py loaddata ./*/fixtures/*.json
     isort -y
 	  black . --line-length 80
+    celery worker -A backendDrewdru &
     python manage.py runserver 8808
     ;;
   prod)
     yes yes | python manage.py collectstatic
     python manage.py migrate
+    celery worker -A backendDrewdru &
     uvicorn backendDrewdru.asgi:application --uds /tmp/backendDrewdru.sock
     ;;
 esac

@@ -1,5 +1,8 @@
 
 backendDrewdru/settings_prod.py
+keys/
+ocr/neural_network
+ocr/temp
 
 *.sqlite3
 env/*
