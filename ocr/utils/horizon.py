@@ -1,6 +1,3 @@
-# import the necessary packages
-import argparse
-
 import cv2
 import numpy as np
 
@@ -42,9 +39,4 @@ def fix_horizon(image):
         image, M, (w, h), flags=cv2.INTER_CUBIC, borderMode=cv2.BORDER_REPLICATE
     )
 
-    # cv2.putText(rotated, "Angle: {:.2f} degrees".format(angle),
-    #     (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
-    # cv2.imshow("Input", image)
-    # cv2.imshow("Rotated", rotated)
-    # cv2.waitKey(0)
     return rotated

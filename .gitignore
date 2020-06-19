@@ -2,7 +2,10 @@
 backendDrewdru/settings_prod.py
 keys/
 ocr/neural_network
-ocr/temp
+ocr/temp/
+ocr/dataset/
+*.h5
+*.pdf
 
 *.sqlite3
 env/*

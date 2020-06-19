@@ -4,18 +4,44 @@ from scipy.signal import find_peaks, medfilt
 
 
 def lines_segmentation(image):
-    invert = 255 - image
     ## (5) find and draw the upper and lower boundary of each lines
-    hist = cv2.reduce(invert, 1, cv2.REDUCE_AVG).reshape(-1)
+    hist = cv2.reduce(image, 1, cv2.REDUCE_AVG).reshape(-1)
 
     th = 2
-    H, W = invert.shape[:2]
+    H, W = image.shape[:2]
     uppers = [y for y in range(H - 1) if hist[y] <= th and hist[y + 1] > th]
     lowers = [y for y in range(H - 1) if hist[y] > th and hist[y + 1] <= th]
 
+    lines_count = max(len(uppers), len(lowers))
     lines = zip(uppers, lowers)
-    for line in lines:
-        yield invert[line[0] : line[1]]
+    return lines, lines_count
+    # for line in lines:
+    #     yield invert[line[0] : line[1]]
+
+    # show result
+    # result = invert.copy()
+    # result = cv2.cvtColor(result, cv2.COLOR_GRAY2BGR)
+    # for y in uppers:
+    #     cv2.line(result, (0,y), (W, y), (255,0,0), 1)
+    # for y in lowers:
+    #     cv2.line(result, (0,y), (W, y), (0,255,0), 1)
+    # cv2.imshow("line", result)
+    # cv2.waitKey(0)
+
+    # # Get histogram
+    # invert = 255 - image
+    # proj = np.sum(invert, 1)
+    # max_value = np.max(proj)
+
+    # # Get peaks
+    # # TODO: How to calculate best KERNEL_SIZE?
+    # KERNEL_SIZE = 35
+    # proj = medfilt(proj, 35)
+    # lower_peaks, _ = find_peaks(-proj+max_value, height=proj.shape[0], distance=KERNEL_SIZE)
+
+    # # split by lower peaks
+    # for row in np.split(invert, lower_peaks)[1:-1]:
+    #     yield row
 
 
 def word_segmentation(image):
