@@ -4,10 +4,11 @@ import uuid
 
 import magic
 import redis
-from django.utils.translation import ugettext_lazy as _
+from django import forms
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.http import HttpResponse
+from django.utils.translation import ugettext_lazy as _
 from rest_framework import serializers
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.decorators import action
@@ -43,7 +44,6 @@ class WrongFileTypeException(WrongParameterTypeException):
     default_detail = "WRONG_FILE_TYPE"
 
 
-from django import forms
 
 class PdfForOcrForm(forms.Form):
     lang = forms.CharField(label=_('Language'), max_length=100)
