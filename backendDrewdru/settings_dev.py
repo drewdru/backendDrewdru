@@ -81,10 +81,10 @@ REDIS_PORT = 6379
 BROKER_URL = "redis://127.0.0.1:6379/0"
 BROKER_TRANSPORT = "redis"
 
-CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379/0'
-CELERY_ACCEPT_CONTENT = ['application/json']
-CELERY_TASK_SERIALIZER = 'json'
-CELERY_RESULT_SERIALIZER = 'json'
-CELERY_TIMEZONE = 'Asia/Krasnoyarsk'
-
+CELERY_RESULT_BACKEND = "redis://127.0.0.1:6379/0"
+CELERY_ACCEPT_CONTENT = ["application/json"]
+CELERY_TASK_SERIALIZER = "json"
+CELERY_RESULT_SERIALIZER = "json"
+CELERY_TIMEZONE = "Asia/Krasnoyarsk"
+CELERY_DEFAULT_RUOTING_KEY = "backendDrewdru@drewdru.local"
 # endregion

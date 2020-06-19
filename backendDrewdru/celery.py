@@ -1,4 +1,5 @@
 from __future__ import absolute_import
+
 import os
 import sys
 
@@ -15,12 +16,13 @@ if "prod" in sys.argv:
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", settings_file)
 
 
-
 django.setup()
 # celery worker -A backendDrewdru -l debug
 app = Celery("backendDrewdru")
 app.config_from_object("django.conf:settings")
 app.autodiscover_tasks(lambda: settings.INSTALLED_APPS)
+
+app.task_default_routing_key = settings.CELERY_DEFAULT_RUOTING_KEY
 
 # celery -A testapp beat -l debug
 # from celery.schedules import crontab
