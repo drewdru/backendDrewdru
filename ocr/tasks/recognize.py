@@ -38,7 +38,9 @@ def recognize(path, uid, lang):
 
         for index, page in enumerate(pages):
             progress = 0
-            redis_instance.set(f"status_{uid}", f"Pre-processing page {index+1}")
+            redis_instance.set(
+                f"status_{uid}", f"Pre-processing page {index+1}"
+            )
             redis_instance.set(f"progress_{uid}", progress)
 
             # Pre processing
@@ -70,12 +72,14 @@ def recognize(path, uid, lang):
                 #     line_from = line[1]
                 #     line_to = line[0]
 
-                text_line = invert[line[0]:line[1]]
+                text_line = invert[line[0] : line[1]]
 
                 for word in word_segmentation(text_line):
                     recognized_word = ""
                     for character in character_segmentation(word):
-                        recognized_word = ocr.recognize(character, recognized_word)
+                        recognized_word = ocr.recognize(
+                            character, recognized_word
+                        )
                     output += f"{recognized_word} "
                 output += "\n"
                 progress = (index + 1) / lines_count * 100
@@ -84,7 +88,7 @@ def recognize(path, uid, lang):
         redis_instance.set(f"status_{uid}", f"done")
         os.remove(path)
     except Exception as error:
-        #TODO: LOG Error
+        # TODO: LOG Error
         print(error)
         redis_instance.set(f"status_{uid}", f"Error: {error}")
     # TODO: add natural language processing

@@ -4,8 +4,10 @@ keys/
 ocr/neural_network
 ocr/temp/
 ocr/dataset/
+ocr/fonts/
 *.h5
 *.pdf
+*.zip
 
 *.sqlite3
 env/*

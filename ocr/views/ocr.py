@@ -44,10 +44,9 @@ class WrongFileTypeException(WrongParameterTypeException):
     default_detail = "WRONG_FILE_TYPE"
 
 
-
 class PdfForOcrForm(forms.Form):
-    lang = forms.CharField(label=_('Language'), max_length=100)
-    file = forms.FileField(label=_('File'), )
+    lang = forms.CharField(label=_("Language"), max_length=100)
+    file = forms.FileField(label=_("File"),)
 
 
 class OcrView(APIView):
@@ -75,17 +74,15 @@ class OcrView(APIView):
         uid = f"ocr_{uid}"
         form = PdfForOcrForm(request.POST, request.FILES)
         if form.is_valid():
-            form_file = form.cleaned_data.get('file')
+            form_file = form.cleaned_data.get("file")
             mime = form_file.content_type
-            
-            document_type = magic.from_buffer(
-                form_file.read(2048)
-            ).upper()
+
+            document_type = magic.from_buffer(form_file.read(2048)).upper()
             form_file.seek(0)
-            
-            if mime != 'application/pdf' or not "PDF" in document_type:
+
+            if mime != "application/pdf" or "PDF" not in document_type:
                 raise WrongFileTypeException
-            
+
             path = f"{TEMP_DIR}{uid}.pdf"
             with open(path, "ab+") as destination:
                 for chunk in form_file.chunks():
@@ -93,7 +90,7 @@ class OcrView(APIView):
 
             lang = form.cleaned_data.get("lang", "ru_kz")
 
-            redis_instance.set(f"status_{uid}", "init")            
+            redis_instance.set(f"status_{uid}", "init")
             recognize.delay(path, uid, lang)
         else:
             raise MissingParameterException

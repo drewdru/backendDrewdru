@@ -17,7 +17,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 class OcrNeuralNetwork:
-    BATCH_SIZE = 120
+    BATCH_SIZE = 300
     EPOCHS = 20
     IMG_HEIGHT = 150
     IMG_WIDTH = 150
@@ -32,10 +32,10 @@ class OcrNeuralNetwork:
     def init_train_data(self):
         train_image_generator = ImageDataGenerator(
             rescale=1.0 / 255,
-            rotation_range=45,
-            width_shift_range=0.15,
-            height_shift_range=0.15,
-            zoom_range=0.5,
+            rotation_range=25,
+            width_shift_range=0.05,
+            height_shift_range=0.2,
+            zoom_range=0.2,
         )
         self.train_data_gen = train_image_generator.flow_from_directory(
             batch_size=self.BATCH_SIZE,

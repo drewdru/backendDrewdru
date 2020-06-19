@@ -8,7 +8,7 @@ case $1 in
     python manage.py migrate
     python manage.py loaddata ./*/fixtures/*.json
     isort -y
-	  black . --line-length 80
+	  black . --line-length 80 --exclude './ocr/dataset' --exclude './ocr/fonts' --exclude './ocr/temp'
     # celery worker -A backendDrewdru -n backendDrewdru@drewdru.local &
     python manage.py runserver 8808
     ;;
