@@ -4,6 +4,7 @@ keys/
 ocr/neural_network
 ocr/temp/
 ocr/dataset/
+ocr/new_dataset/
 ocr/fonts/
 *.h5
 *.pdf

@@ -1,5 +1,6 @@
 import json
 import os
+import uuid
 
 import cv2
 import numpy as np
@@ -17,9 +18,6 @@ from ocr.utils.segmetation import (
     word_segmentation,
 )
 
-redis_instance = redis.StrictRedis(
-    host=settings.REDIS_HOST, port=settings.REDIS_PORT, db=0
-)
 
 
 @app.task
@@ -28,14 +26,18 @@ def train(lang):
     ocr.train()
 
 
+
 @app.task
 def recognize(path, uid, lang):
+    redis_instance = redis.StrictRedis(
+        host=settings.REDIS_HOST, port=settings.REDIS_PORT, db=0
+    )
     try:
         redis_instance.set(f"status_{uid}", "start")
         pages = pdf2image.convert_from_path(path, 500)
         ocr = OcrNeuralNetwork(lang)
         output = ""
-
+        wrong_recognized_classes = set()
         for index, page in enumerate(pages):
             progress = 0
             redis_instance.set(
@@ -61,34 +63,57 @@ def recognize(path, uid, lang):
             lines, lines_count = lines_segmentation(invert)
 
             redis_instance.set(f"status_{uid}", f"Processing page {index+1}")
+            
             for index, line in enumerate(lines):
+                line_tag = '<p>'
                 print(progress)
                 redis_instance.set(f"progress_{uid}", progress)
-                # line_from = line[0]
-                # line_to = line[1]
-                # if line_from == line_to:
-                #     continue
+                
+                line_from = line[0]
+                line_to = line[1]
+                if line_from == line_to:
+                    continue
                 # elif line_from > line_to:
                 #     line_from = line[1]
                 #     line_to = line[0]
+                if line_from - 15 > 0:
+                    line_from -= 15
+                if line_to + 15 < invert.shape[0]:
+                    line_to += 15
+                
 
-                text_line = invert[line[0] : line[1]]
+                text_line = invert[line_from : line_to]
+                # cv2.imshow("text_line", text_line)
 
                 for word in word_segmentation(text_line):
+                    # cv2.imshow("word", word)
                     recognized_word = ""
                     for character in character_segmentation(word):
                         recognized_word = ocr.recognize(
                             character, recognized_word
                         )
+                        # # Generate Dataset
+                        # if len(recognized_word):
+                        #     value = recognized_word[-1]
+                        #     # cv2.imshow("character", character)
+                        #     # cv2.waitKey(500)
+                        #     class_name = input(f'character is "{value}"? Press enter if True or type class_name:') or value
+                        #     class_name = class_name.upper()
+                        #     if class_name != value:
+                        #         img_uid = str(uuid.uuid4())
+                        #         path = f'{ocr.DATASET_TRAIN_PATH}{class_name}/{img_uid}.png'
+                        #         cv2.imwrite(path, character)
+                        #         wrong_recognized_classes.add(value)
+                        #         print(wrong_recognized_classes)
                     output += f"{recognized_word} "
-                output += "\n"
+                output += "</p>"
                 progress = (index + 1) / lines_count * 100
-            output += "\n" * 10
+            output += "<br>" * 10
+        # print(output)
         redis_instance.set(uid, output)
         redis_instance.set(f"status_{uid}", f"done")
-        os.remove(path)
     except Exception as error:
         # TODO: LOG Error
-        print(error)
         redis_instance.set(f"status_{uid}", f"Error: {error}")
+    os.remove(path)
     # TODO: add natural language processing

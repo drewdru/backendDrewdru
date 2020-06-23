@@ -15,7 +15,7 @@ case $1 in
   prod)
     yes yes | python manage.py collectstatic
     python manage.py migrate
-    # celery worker -A backendDrewdru -n backendDrewdru@drewdru.com &
+    celery worker -A backendDrewdru -n backendDrewdru@drewdru.com &
     uvicorn backendDrewdru.asgi:application --uds /tmp/backendDrewdru.sock
     ;;
 esac
