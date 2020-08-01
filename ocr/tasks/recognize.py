@@ -19,12 +19,10 @@ from ocr.utils.segmetation import (
 )
 
 
-
 @app.task
 def train(lang):
     ocr = OcrNeuralNetwork(lang)
     ocr.train()
-
 
 
 @app.task
@@ -63,12 +61,12 @@ def recognize(path, uid, lang):
             lines, lines_count = lines_segmentation(invert)
 
             redis_instance.set(f"status_{uid}", f"Processing page {index+1}")
-            
+
             for index, line in enumerate(lines):
-                line_tag = '<p>'
+                line_tag = "<p>"
                 print(progress)
                 redis_instance.set(f"progress_{uid}", progress)
-                
+
                 line_from = line[0]
                 line_to = line[1]
                 if line_from == line_to:
@@ -80,9 +78,8 @@ def recognize(path, uid, lang):
                     line_from -= 15
                 if line_to + 15 < invert.shape[0]:
                     line_to += 15
-                
 
-                text_line = invert[line_from : line_to]
+                text_line = invert[line_from:line_to]
                 # cv2.imshow("text_line", text_line)
 
                 for word in word_segmentation(text_line):

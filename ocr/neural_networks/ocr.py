@@ -26,7 +26,9 @@ class OcrNeuralNetwork:
     def __init__(self, lang="en"):
         self.MODEL_PATH = f"{BASE_DIR}/neural_networks/{lang}.h5"
         self.DATASET_TRAIN_PATH = f"{BASE_DIR}/new_dataset/train/{lang}/"
-        self.DATASET_VALIDATION_PATH = f"{BASE_DIR}/new_dataset/validation/{lang}/"
+        self.DATASET_VALIDATION_PATH = (
+            f"{BASE_DIR}/new_dataset/validation/{lang}/"
+        )
         self.init_train_data()
         self.init_model()
 
@@ -86,8 +88,15 @@ class OcrNeuralNetwork:
         self.model.summary()
 
     def train(self):
-        total_train = sum([len(files) for r, d, files in os.walk(self.DATASET_TRAIN_PATH)])
-        total_validation = sum([len(files) for r, d, files in os.walk(self.DATASET_VALIDATION_PATH)])
+        total_train = sum(
+            [len(files) for r, d, files in os.walk(self.DATASET_TRAIN_PATH)]
+        )
+        total_validation = sum(
+            [
+                len(files)
+                for r, d, files in os.walk(self.DATASET_VALIDATION_PATH)
+            ]
+        )
         steps_train = total_train // self.BATCH_SIZE
         steps_validation = total_validation // self.BATCH_SIZE
         history = self.model.fit(

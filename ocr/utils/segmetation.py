@@ -16,17 +16,17 @@ def lines_segmentation(image):
     lines = zip(uppers, lowers)
     return lines, lines_count
     # for line in lines:
-                    # line_from = line[0]
-                    # line_to = line[1]
-                    # if line_from == line_to:
-                    #     continue
-                    # # elif line_from > line_to:
-                    # #     line_from = line[1]
-                    # #     line_to = line[0]
-                    # if line_from - 5 > 0:
-                    #     line_from -= 5
-                    # if line_to + 5 < invert.shape[0]:
-                    #     line_from += invert.shape[0]
+    # line_from = line[0]
+    # line_to = line[1]
+    # if line_from == line_to:
+    #     continue
+    # # elif line_from > line_to:
+    # #     line_from = line[1]
+    # #     line_to = line[0]
+    # if line_from - 5 > 0:
+    #     line_from -= 5
+    # if line_to + 5 < invert.shape[0]:
+    #     line_from += invert.shape[0]
     #     yield invert[line[0] : line[1]]
 
     # show result
@@ -96,5 +96,5 @@ def character_segmentation(image):
     # cv2.imshow("image", image)
     for cor in coord:
         [x, y, w, h] = cor
-        character = image[0 : y+h, x : x + w]
+        character = image[0 : y + h, x : x + w]
         yield character
