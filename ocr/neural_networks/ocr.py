@@ -17,29 +17,32 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 class OcrNeuralNetwork:
-    BATCH_SIZE = 120
-    EPOCHS = 20
+    BATCH_SIZE = 100
+    EPOCHS = 5
     IMG_HEIGHT = 150
     IMG_WIDTH = 150
     CLASSES = []
 
     def __init__(self, lang="en"):
-        self.DATASET_PATH = f"{BASE_DIR}/dataset/{lang}/"
         self.MODEL_PATH = f"{BASE_DIR}/neural_networks/{lang}.h5"
+        self.DATASET_TRAIN_PATH = f"{BASE_DIR}/new_dataset/train/{lang}/"
+        self.DATASET_VALIDATION_PATH = (
+            f"{BASE_DIR}/new_dataset/validation/{lang}/"
+        )
         self.init_train_data()
         self.init_model()
 
     def init_train_data(self):
         train_image_generator = ImageDataGenerator(
             rescale=1.0 / 255,
-            rotation_range=45,
-            width_shift_range=0.15,
-            height_shift_range=0.15,
-            zoom_range=0.5,
+            # rotation_range=25,
+            # width_shift_range=0.05,
+            # height_shift_range=0.2,
+            # zoom_range=0.2,
         )
         self.train_data_gen = train_image_generator.flow_from_directory(
             batch_size=self.BATCH_SIZE,
-            directory=self.DATASET_PATH,
+            directory=self.DATASET_TRAIN_PATH,
             shuffle=True,
             target_size=(self.IMG_HEIGHT, self.IMG_WIDTH),
         )
@@ -48,7 +51,7 @@ class OcrNeuralNetwork:
         validation_image_generator = ImageDataGenerator(rescale=1.0 / 255)
         self.val_data_gen = validation_image_generator.flow_from_directory(
             batch_size=self.BATCH_SIZE,
-            directory=self.DATASET_PATH,
+            directory=self.DATASET_VALIDATION_PATH,
             target_size=(self.IMG_HEIGHT, self.IMG_WIDTH),
         )
 
@@ -85,14 +88,23 @@ class OcrNeuralNetwork:
         self.model.summary()
 
     def train(self):
-        total = sum([len(files) for r, d, files in os.walk(self.DATASET_PATH)])
-        steps = total // self.BATCH_SIZE
+        total_train = sum(
+            [len(files) for r, d, files in os.walk(self.DATASET_TRAIN_PATH)]
+        )
+        total_validation = sum(
+            [
+                len(files)
+                for r, d, files in os.walk(self.DATASET_VALIDATION_PATH)
+            ]
+        )
+        steps_train = total_train // self.BATCH_SIZE
+        steps_validation = total_validation // self.BATCH_SIZE
         history = self.model.fit(
             self.train_data_gen,
-            steps_per_epoch=steps,
+            steps_per_epoch=steps_train,
             epochs=self.EPOCHS,
             validation_data=self.val_data_gen,
-            validation_steps=steps,
+            validation_steps=steps_validation,
         )
         self.model.save(self.MODEL_PATH)
 

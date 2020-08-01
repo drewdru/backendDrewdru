@@ -26,6 +26,7 @@ django-modeltranslation==0.14.4
 djangorestframework==3.11.0
 djangorestframework-sso==0.3.1
 djongo==1.3.1
+fonttools==4.12.1
 future==0.18.2
 gast==0.3.3
 google-auth==1.17.2
